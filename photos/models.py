@@ -7,6 +7,12 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return '글 번호: {}'.format(self.pk)
+
+    class Meta:
+        ordering = ('-created_at', '-pk', )
+
 
 class Comment(models.Model):
     post = models.ForeignKey(Post)
