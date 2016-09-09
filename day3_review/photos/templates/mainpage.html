@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        table, td, th{
+            border: 1px solid black;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+    </style>
+    <title>장고로 만든 게시판 예제</title>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th style="width:5%">번호</th>
+                <th style="width:15%">제목</th>
+                <th style="width:45%">내용</th>
+                <th style="width:10%">작성자</th>
+                <th style="width:15%">수정일시</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for post in arr_posts %}
+            <tr>
+                <td>{{post.pk}}</td>
+                <td>{{post.title}}</td>
+                <td>{{post.content}}</td>
+                <td>{{post.userid}}</td>
+                <td>{{post.updated_at}}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
