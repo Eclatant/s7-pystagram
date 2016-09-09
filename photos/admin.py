@@ -1,9 +1,7 @@
 from django.contrib import admin
-
-from .models import Post
-from .models import Comment
-from .models import Tag
-
+from photos.models import Post
+from photos.models import Comment
+from photos.models import Tag
 
 admin.site.register(Post)
 admin.site.register(Comment)
