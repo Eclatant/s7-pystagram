@@ -5,7 +5,11 @@ from .models import Comment
 from .models import Tag
 
 
-admin.site.register(Post)
+class PostAdmin(admin.ModelAdmin):
+    list_filter = ('tags', )
+
+
+admin.site.register(Post, PostAdmin)
 admin.site.register(Comment)
 admin.site.register(Tag)
 
