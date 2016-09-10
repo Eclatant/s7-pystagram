@@ -26,3 +26,11 @@ def list_posts(request):
     }
     return render(request, 'list.html', ctx)
 
+
+def view_post(request, pk):
+    print(pk)
+    ctx = {}
+    return render(request, 'view.html', ctx)
+
+
+
