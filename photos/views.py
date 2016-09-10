@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 
 from .models import Post
@@ -28,7 +29,8 @@ def list_posts(request):
 
 
 def view_post(request, pk):
-    print(pk)
+    #post = Post.objects.get(pk=pk)
+    post = get_object_or_404(Post, pk=pk)
     ctx = {}
     return render(request, 'view.html', ctx)
 
