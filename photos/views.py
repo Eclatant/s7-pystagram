@@ -35,4 +35,8 @@ def view_post(request, pk):
     return render(request, 'view.html', ctx)
 
 
+def create_post(request):
+    ctx = {}
+    return render(request, 'edit.html', ctx)
+
 
