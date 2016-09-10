@@ -10,6 +10,9 @@ class Post(models.Model):
     def __str__(self):
         return '글 번호: {}'.format(self.pk)
 
+    def get_absolute_url(self):
+        return '/posts/{}/'.format(self.pk)
+
     class Meta:
         ordering = ('-created_at', '-pk', )
 
