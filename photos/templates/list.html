@@ -7,6 +7,13 @@
 
 <body>
     <h3>사진 목록</h3>
+
+    {% for post in posts %}
+    <div class="post_container">
+        <p>{{ post.pk }}</p>
+        <p>{{ post.content }}</p>
+    </div>
+    {% endfor %}
 </body>
 
 </html>
