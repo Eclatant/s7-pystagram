@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
+from django.core.urlresolvers import reverse
+from django.shortcuts import redirect
 
 from .models import Post
 
@@ -37,6 +39,15 @@ def view_post(request, pk):
 
 def create_post(request):
     ctx = {}
+    if request.method == 'POST':
+        form = request.POST
+        content = form['content']
+        post = Post()
+        post.content = content
+        post.save()
+        # url = reverse('photos:view_post', kwargs={'pk': post.pk})
+        # return redirect(url)
+        return redirect('photos:view_post', pk=post.pk)
     return render(request, 'edit.html', ctx)
 
 
