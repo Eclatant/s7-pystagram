@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+  </head>
+
+  <body>
+    <h3>{{ comment.pk }} 댓글삭제확인 </h3>
+    <form method="POST" action="">
+      {% csrf_token %}
+      <p>
+        정말로 지우시겠습니까?
+      </p>
+      <p>
+        <button type="submit">삭제</button>
+      </p>
+    </form>
+  </body>
+</html>

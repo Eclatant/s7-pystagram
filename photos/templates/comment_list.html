@@ -1,0 +1,12 @@
+<div class ="comments_container">
+  {% for comment in comments %}
+  <div class="comment_container">
+    <p>--------------------------------------------------------------------</p>
+    <div class="comment_content">{{ comment.content }}</div>
+    <p><span>작성일시</span>{{ comment.created_at }}</p>
+  </div>
+  <p><a href="{% url 'photos:delete_comment' comment.pk post.pk %}">댓글 삭제</a></p>
+  {% empty %}
+    <p> 댓글이 없습니다 </p>
+  {% endfor %}
+</div>

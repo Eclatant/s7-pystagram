@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+  </head>
+
+  <body>
+    <div class="post_container">
+      <div class="post_content">{{ post.content }} </div>
+      <div>
+        <p><span>글 작성일시: </span>{{ post.created_at }}</p>
+      </div>
+    </div>
+
+    {% with comments=post.comment_set.all %}
+      {% include 'comment_list.html' %}
+    {% endwith %}
+    <div>
+      <p>*************************************************</p>
+      <p><a href="{% url 'photos:create_comment' post.pk %}">댓글추가</a></p>
+      <p><a href="{% url 'photos:list_post' %}">사진목록으로</a></p>
+    </div>
+  </body>
+</html>
