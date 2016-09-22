@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+    </head>
+
+    <body>
+        <div class="post_container">
+            <p>[게시물]</p>
+            <div class="post_content">{{ post.content }}</div>
+            <div>
+                <p>게시물 작성일시 : {{ post.created_at }}</p> 
+            </div>
+            <p>----------------------------------------</p>
+        </div>
+        <div class="comments_container">
+            </br>    
+            <p>[댓글]
+            <a href="{% url 'photos:create_comment' post.id %}">댓글달기</a>
+            </p>
+
+            {% for comment in post.comment_set.all %}
+            <div class="comment_container">
+                <p>댓글순번 : {{ forloop.counter }}</p>
+                <div class="comment_content">내용 : {{ comment.content }}</div>
+                <p>댓글 작성일시 : {{ comment.created_at }}</p>
+                <a href="{% url 'photos:delete_comment' comment.id %}">삭제하기</a>
+                <p>----------------------------------------</p>
+            </div>
+            {% empty %}
+            <p>댓글이 없습니다.</p>
+            {% endfor %}
+        </div>
+    </body>
+</html>
+
