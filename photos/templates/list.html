@@ -1,20 +1,26 @@
 <!DOCTYPE html>
-<html>
-
+{% load bootstrap3 %}
+<html lang="ko">
 <head>
-    <title></title>
+    <meta charset="UTF-8">
+    <title>계시판 목록 출력</title>
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
 </head>
-
 <body>
     <h3>사진 목록</h3>
 
-    {% for post in posts %}
-    <div class="post_container">
-        <p><a href="{% url 'photos:view_post' pk=post.pk %}">{{ post.pk }}</a></p>
-        <p>{{ post.content }}</p>
-    </div>
+    {% for post in arr_posts%}
+        <div class="post_container">
+            {#<!-- <p><a href="/posts/{{ post.pk }}/">{{ post.pk }}</a></p> --> #}
+            {#<!-- 장고의 URL 변수 urls.py 에서 name 키워드으로 정의되어 있는 url을 연결한다. --> #}
+            {#<!-- 키워드 파라미터로 변경되면 urls.py 에서 URL 패턴을 정의해야 한다. --> #}
+            {# <p><a href="{% url 'photos:view_post' pk=post.pk %}">{{ post.pk }}</a></p> #}
+            <p><a href="{% url 'photos:view_post' pk=post.pk %}">{{ post.pk }}</a></p>
+            <p>{{ post.content }}</p>
+        </div>
     {% endfor %}
+
+    {#<!--{% bootstrap_pagination arr_posts %} --> #}
 </body>
-
 </html>
-

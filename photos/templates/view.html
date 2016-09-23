@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 보기</title>
+</head>
+<body>
+    <div class="post_container">
+        <div class="post_content">{{ post.content }}</div>
+
+        <p><span>작성일시 : {{ post.created_at }}</span></p>
+    </div>
+    <div class="comments_container">
+        {% for comment in post.coment_set.all %}
+        <div class="comment_container">
+            <p>=============================================</p>
+            <div class="comment_content">{{ comment.content }}</div>
+            <p><span>작성일시 :</span>{{ comment.created_at }}</p>
+            <form action="delcomment" method="post">
+                {% csrf_token %}
+                <div class="comments_remove">
+                    <input type="submit" value="댓글 삭제" style="width:100px">
+                    <input type="hidden" name="comment_pk" value={{ comment.id }}>
+                </div>
+            </form>
+        </div>
+        {% empty %}
+            <p>댓글이 없습니다.</p>
+        {% endfor %}
+        <br>
+        <form action="addcomment" method="post">
+            {% csrf_token %}
+            <div class="comments_input">
+                <input type="text" name="content" style="width:300px; margin=0 5 0 0; display: inline;">
+                <input type="submit" value="댓글 추가" style="width:100px;">
+            </div>
+        </form>
+    </div>
+</body>
+</html>
