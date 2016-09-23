@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+</head>
+
+<body>
+    <h3>사진 목록</h3>
+
+    {% for post in posts %}
+    <div class="post_container">
+        <p><a href="{% url 'photos:view_post' pk=post.pk %}">{{ post.pk }}</a></p>
+        <p>{{ post.content }}</p>
+    </div>
+    {% endfor %}
+</body>
+
+</html>
+
