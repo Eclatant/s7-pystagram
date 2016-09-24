@@ -9,6 +9,7 @@ from django.core.paginator import PageNotAnInteger
 
 from .models import Post
 from .forms import PostSimpleForm
+from .forms import PostForm
 
 
 def hello_world(request):
@@ -44,7 +45,7 @@ def view_post(request, pk):
 
 def create_post(request):
     if request.method == 'POST':
-        form = PostSimpleForm(request.POST)
+        form = PostForm(request.POST)
         if form.is_valid():
             post = Post()
             post.content = form.cleaned_data['content']
@@ -53,7 +54,7 @@ def create_post(request):
             # return redirect(url)
             return redirect('photos:view_post', pk=post.pk)
     elif request.method == 'GET':
-        form = PostSimpleForm()
+        form = PostForm()
 
     ctx = {
         'form': form,
