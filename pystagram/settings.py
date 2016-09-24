@@ -37,7 +37,9 @@ ROOT_URLCONF = 'pystagram.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates1'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
