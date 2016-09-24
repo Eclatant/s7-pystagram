@@ -21,7 +21,12 @@ def list_posts(request):
     posts = Post.objects.all().order_by('-created_at')
     pgt = Paginator(posts, per_page)
 
-    contents = pgt.page(page)
+    try:
+        contents = pgt.page(page)
+    except PageNotAnInteger:
+        contents = pgt.page(1)
+    except EmptyPage:
+        contents = []
 
     ctx = {
         'posts': contents,
@@ -40,7 +45,8 @@ def create_post(request):
     ctx = {}
     if request.method == 'POST':
         form = request.POST
-        content = form['content']
+        # content = form['content']
+        content = form.get('content')
         post = Post()
         post.content = content
         post.save()

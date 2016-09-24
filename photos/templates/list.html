@@ -1,8 +1,11 @@
+{% load bootstrap3 %}
 <!DOCTYPE html>
 <html>
 
 <head>
     <title></title>
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
 </head>
 
 <body>
@@ -14,6 +17,8 @@
         <p>{{ post.content }}</p>
     </div>
     {% endfor %}
+
+    {% bootstrap_pagination posts %}
 </body>
 
 </html>
