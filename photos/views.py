@@ -43,12 +43,6 @@ def view_post(request, pk):
 
 
 def create_post(request):
-    form = PostSimpleForm()
-
-    ctx = {
-        'form': form,
-    }
-
     if request.method == 'POST':
         form = request.POST
         # content = form['content']
@@ -59,6 +53,13 @@ def create_post(request):
         # url = reverse('photos:view_post', kwargs={'pk': post.pk})
         # return redirect(url)
         return redirect('photos:view_post', pk=post.pk)
+    elif request.method == 'GET':
+        form = PostSimpleForm()
+
+        ctx = {
+            'form': form,
+        }
+
     return render(request, 'edit.html', ctx)
 
 
