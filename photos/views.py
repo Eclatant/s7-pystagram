@@ -8,6 +8,7 @@ from django.core.paginator import EmptyPage
 from django.core.paginator import PageNotAnInteger
 
 from .models import Post
+from .forms import PostSimpleForm
 
 
 def hello_world(request):
@@ -42,7 +43,12 @@ def view_post(request, pk):
 
 
 def create_post(request):
-    ctx = {}
+    form = PostSimpleForm()
+
+    ctx = {
+        'form': form,
+    }
+
     if request.method == 'POST':
         form = request.POST
         # content = form['content']
