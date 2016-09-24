@@ -24,8 +24,8 @@ class PostForm(forms.ModelForm):
         return content  # 주의! 반드시 정제된 결과를 return 함.
 
     def clean(self):
-        content = self.cleaned_data['content']
-        if '띨띨이' in content:
+        content = self.cleaned_data.get('content')
+        if content and '띨띨이' in content:
             _msg = '방심하지 마라! 금지어 있다: {}'.format('띨띨이')
             self.add_error('content', _msg)
 
