@@ -44,15 +44,14 @@ def view_post(request, pk):
 
 def create_post(request):
     if request.method == 'POST':
-        form = request.POST
-        # content = form['content']
-        content = form.get('content')
-        post = Post()
-        post.content = content
-        post.save()
-        # url = reverse('photos:view_post', kwargs={'pk': post.pk})
-        # return redirect(url)
-        return redirect('photos:view_post', pk=post.pk)
+        form = PostSimpleForm(request.POST)
+        if form.is_valid():
+            post = Post()
+            post.content = form.cleaned_data['content']
+            post.save()
+            # url = reverse('photos:view_post', kwargs={'pk': post.pk})
+            # return redirect(url)
+            return redirect('photos:view_post', pk=post.pk)
     elif request.method == 'GET':
         form = PostSimpleForm()
 
