@@ -52,16 +52,12 @@ def create_post(request):
             # url = reverse('photos:view_post', kwargs={'pk': post.pk})
             # return redirect(url)
             return redirect('photos:view_post', pk=post.pk)
-        else:
-            ctx = {
-                'form': form,
-            }
     elif request.method == 'GET':
         form = PostSimpleForm()
 
-        ctx = {
-            'form': form,
-        }
+    ctx = {
+        'form': form,
+    }
 
     return render(request, 'edit.html', ctx)
 
