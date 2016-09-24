@@ -47,9 +47,10 @@ def create_post(request):
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
-            post = Post()
-            post.content = form.cleaned_data['content']
-            post.save()
+            # post = Post()
+            # post.content = form.cleaned_data['content']
+            # post.save()
+            post = form.save()  # 위 세 줄을 한 줄로 줄임.
             # url = reverse('photos:view_post', kwargs={'pk': post.pk})
             # return redirect(url)
             return redirect('photos:view_post', pk=post.pk)
