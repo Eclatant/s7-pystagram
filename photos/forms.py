@@ -8,6 +8,8 @@ class PostSimpleForm(forms.Form):
 
 
 class PostForm(forms.ModelForm):
+    tags = forms.CharField(required=False)
+
     class Meta:
         model = Post
         fields = ['content', 'tags']
