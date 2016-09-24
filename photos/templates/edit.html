@@ -6,9 +6,8 @@
 <body>
     <form method="POST" action="">
         {% csrf_token %}
-        <p>
-            <textarea name="content"></textarea>
-        </p>
+
+        {{ form.as_p }}
 
         <p>
             <button type="submit">저장</button>
