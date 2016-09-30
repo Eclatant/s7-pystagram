@@ -38,7 +38,7 @@ def list_photos(request):
 
 
 def view_photo(request, pk):
-    #post = Post.objects.get(pk=pk)
+    #photo = Photo.objects.get(pk=pk)
     photo = get_object_or_404(Photo, pk=pk)
     ctx = {}
     return render(request, 'view.html', ctx)
@@ -52,12 +52,13 @@ def create_photo(request):
             # post = Post()
             # post.content = form.cleaned_data['content']
             # post.save()
-            photo = form.save(commit=False)  # 위 세 줄을 한 줄로 줄임.
+
+            photo = form.save(commit=True)  # 위 세 줄을 한 줄로 줄임.
             photo.user = request.user
             photo.save()
             #url = reverse('photos:view_photo', kwargs={'pk': photo.pk})
             #return redirect(url)
-            return redirect('photos:list_photos')
+            return redirect('photos:view_photo', pk=photo.pk)
     elif request.method == 'GET':
         form = PhotoForm()
 

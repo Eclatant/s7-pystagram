@@ -20,7 +20,7 @@ class Photo(models.Model):
 
 
 class Comment(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
     photo = models.ForeignKey(Photo)
     content = models.TextField(max_length=500)
     created_at = models.DateTimeField(auto_now_add=True)
