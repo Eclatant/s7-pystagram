@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings
 
 
-class Photo(models.Model):
+class Post(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     content = models.TextField('글 본문', max_length=500)
     tags = models.ManyToManyField('Tag', blank=True)
@@ -13,7 +13,7 @@ class Photo(models.Model):
         return '글 번호: {}'.format(self.pk)
 
     def get_absolute_url(self):
-        return '/photos/{}/'.format(self.pk)
+        return '/posts/{}/'.format(self.pk)
 
     class Meta:
         ordering = ('-created_at', '-pk', )
@@ -21,7 +21,7 @@ class Photo(models.Model):
 
 class Comment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    photo = models.ForeignKey(Photo)
+    post = models.ForeignKey(Post)
     content = models.TextField(max_length=500)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

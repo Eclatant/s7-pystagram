@@ -1,18 +1,18 @@
 from django import forms
 from django.forms import ValidationError
 
-from .models import Photo
+from .models import Post
 
 
-class PhotoSimpleForm(forms.Form):
+class PostSimpleForm(forms.Form):
     content = forms.CharField(widget=forms.Textarea)
 
 
-class PhotoForm(forms.ModelForm):
+class PostForm(forms.ModelForm):
     tags = forms.CharField(required=False)
 
     class Meta:
-        model = Photo
+        model = Post
         fields = ['content', 'tags']
 
     def clean_content(self):

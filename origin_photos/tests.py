@@ -76,12 +76,14 @@ class PhotoTest(TestCase):
             self.urls.create_photo(), data=data, follow=follow
         )
 
+    @unittest.skip('이 장식자를 제거하며 하나씩 테스트를 통과하세요')
     def test_404(self):
         """없는 페이지에 접근하는 테스트.
         """
         response = self.client.get('/page_not_found/')
         self.assertEqual(response.status_code, 404)
 
+    @unittest.skip('이 장식자를 제거하며 하나씩 테스트를 통과하세요')
     def test_create_photo_by_view_on_logout(self):
         """로그아웃 상태에서 뷰 함수를 이용해 게시물을 게시하는 테스트.
         """
@@ -97,6 +99,7 @@ class PhotoTest(TestCase):
         self.assertEqual(response.resolver_match.func.__name__, 'login')
         self.assertEqual(response.redirect_chain[0][1], 302)
     
+    @unittest.skip('이 장식자를 제거하며 하나씩 테스트를 통과하세요')
     def test_create_photo_by_view_on_login(self):
         """로그인 상태에서 뷰 함수를 이용해 게시물을 게시하는 테스트.
         """
