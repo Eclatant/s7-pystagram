@@ -1,5 +1,8 @@
 import os
 
+import raven
+
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -20,6 +23,7 @@ INSTALLED_APPS = [
     'photos',
     'bootstrap3',
     'profiles',
+    'raven.contrib.django.raven_compat',
 ]
 
 MIDDLEWARE = [
@@ -30,7 +34,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    #'pystagram.sample_middlewares.SimpleMiddleware',
+    'pystagram.sample_middlewares.SimpleMiddleware',
 ]
 
 ROOT_URLCONF = 'pystagram.urls'
@@ -119,4 +123,65 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static_deploy')
 MEDIA_URL = '/uploads/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploadfiles')
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'filters': {
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+        },
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'access.log',
+            'formatter': 'verbose',
+        },
+        'sentry': {
+            'level': 'INFO',
+            'class': 'raven.contrib.django.handlers.SentryHandler',
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'raven': {
+            'level': 'INFO',
+            'handlers': ['console'],
+        },
+        'django': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+    }
+}
+
+RAVEN_CONFIG = {
+    'dsn': 'https://197093fb157044a1a1a9e0960d89bc03:af5d77eb13e84b3bbfecdea05e5d7ef4@sentry.io/102943',
+}
 
