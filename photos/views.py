@@ -19,12 +19,6 @@ from .forms import PostSimpleForm
 from .forms import PostForm
 from pystagram.sample_exceptions import HelloWorldError
 
-from raven.contrib.django.raven_compat.models import client
-
-from raven import Client
-
-client = Client('https://197093fb157044a1a1a9e0960d89bc03:af5d77eb13e84b3bbfecdea05e5d7ef4@sentry.io/102943')
-
 
 logger = logging.getLogger(__name__)
 
@@ -34,6 +28,7 @@ def hello_world(request):
 
 
 def list_posts(request):
+    raise HelloWorldError('-_-')
     logger.debug('로그로그하군!')
     logger.info('로깅로깅하구나!')
     logger.warning('워닝워닝하네!')

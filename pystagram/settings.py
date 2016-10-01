@@ -167,6 +167,12 @@ LOGGING = {
         'raven': {
             'level': 'INFO',
             'handlers': ['console'],
+            'propagate': False,
+        },
+        'sentry.errors': {
+            'level': 'INFO',
+            'handlers': ['console'],
+            'propagate': False,
         },
         'django': {
             'handlers': ['console', 'file'],
@@ -182,6 +188,6 @@ LOGGING = {
 }
 
 RAVEN_CONFIG = {
-    'dsn': 'https://197093fb157044a1a1a9e0960d89bc03:af5d77eb13e84b3bbfecdea05e5d7ef4@sentry.io/102943',
+        'dsn': 'https://e3c4a8e79b814d128a03e8f8411eb767:e2cf410ede264cfdbe23b0b3f9c13284@sentry.io/102943',
 }
 
