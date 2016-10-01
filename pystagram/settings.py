@@ -7,7 +7,7 @@ SECRET_KEY = '%jo19!1xkg)llucca4i24%8r@jgzwswdv9v4@yvvld)z#7j@m%'
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 INSTALLED_APPS = [
@@ -30,6 +30,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #'pystagram.sample_middlewares.SampleMiddleware',
 ]
 
 ROOT_URLCONF = 'pystagram.urls'
@@ -107,4 +108,10 @@ STATIC_URL = '/static/'
 LOGIN_URL = '/login/'
 
 LOGIN_REDIRECT_URL = '/photos/create/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'staticfiles'),
+]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_deploy')
 
