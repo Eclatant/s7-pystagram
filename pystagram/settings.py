@@ -30,7 +30,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    #'pystagram.sample_middlewares.SampleMiddleware',
+    #'pystagram.sample_middlewares.SimpleMiddleware',
 ]
 
 ROOT_URLCONF = 'pystagram.urls'
@@ -111,6 +111,7 @@ LOGIN_REDIRECT_URL = '/photos/create/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'staticfiles'),
+    os.path.join(BASE_DIR, 'staticfiles2'),
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_deploy')

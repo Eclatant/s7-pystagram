@@ -1,9 +1,11 @@
 {% load bootstrap3 %}
+{% load static from staticfiles %}
 <!DOCTYPE html>
 <html>
 
 <head>
     <title></title>
+    <script src="{% static 'hello.js' %}"></script>
     {% bootstrap_css %}
     {% bootstrap_javascript %}
 </head>
