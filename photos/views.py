@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Post
 from .forms import PostSimpleForm
 from .forms import PostForm
+from pystagram.sample_exceptions import HelloWorldError
 
 
 def hello_world(request):
@@ -18,6 +19,8 @@ def hello_world(request):
 
 
 def list_posts(request):
+    raise HelloWorldError('으앙 오류')
+
     page = request.GET.get('page', 1)
     per_page = 2
 
