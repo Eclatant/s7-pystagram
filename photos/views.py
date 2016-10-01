@@ -40,14 +40,16 @@ def list_posts(request):
 def view_post(request, pk):
     #post = Post.objects.get(pk=pk)
     post = get_object_or_404(Post, pk=pk)
-    ctx = {}
+    ctx = {
+        'post': post
+    }
     return render(request, 'view.html', ctx)
 
 
 @login_required
 def create_post(request):
     if request.method == 'POST':
-        form = PostForm(request.POST)
+        form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             # post = Post()
             # post.content = form.cleaned_data['content']
