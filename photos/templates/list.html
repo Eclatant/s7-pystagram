@@ -1,14 +1,24 @@
 {% load bootstrap3 %}
+{% load static from staticfiles %}
 <!DOCTYPE html>
 <html>
   <head>
     <title></title>
+    <!--<script src="{% static 'hello.js' %}"></script>
+    <script>
+      say_hello('');
+    </script>
+  -->
     {% bootstrap_css %}
     {% bootstrap_javascript %}
   </head>
 
   <body>
     <h3> 사 진 목 록</h3>
+
+    <div class="logined_user_container">
+      <p>{{ user }}</p>
+    </div>
 
     {% for post in posts %}
     <div class="post_container">

@@ -12,9 +12,29 @@
       </div>
     </div>
 
+    <p>
+      {{ post.pk }} 번 사진 게시물
+    </p>
+
+    <p>
+      <img src="{{ post.image.url }}" />
+    </p>
+
     {% with comments=post.comment_set.all %}
       {% include 'comment_list.html' %}
     {% endwith %}
+
+    {% with count=post.like_set.count %}
+      <p> 좋아요: {{ count }}</p>
+      <p><a href="{% url 'photos:add_like' post.pk %}">좋아요</a></p>
+    {% endwith %}
+
+    <p>-------------- 좋아요를 눌러주신분들-----------------</p>
+    {% for like in likes %}
+    <p>{{ like.user }} : {{ like.created_at }} </p>
+    {% endfor %}
+    <p>---------------------------------------------------------------</p>
+
     <div>
       <p>*************************************************</p>
       <p><a href="{% url 'photos:create_comment' post.pk %}">댓글추가</a></p>

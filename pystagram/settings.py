@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 
+import raven
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -39,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'photos',
     'bootstrap3',
+    'profiles',
+    'raven.contrib.django.raven_compat',
 ]
 
 MIDDLEWARE = [
@@ -49,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'pystagram.sample_middlewares.SampleMiddleware',
 ]
 
 ROOT_URLCONF = 'pystagram.urls'
@@ -56,7 +61,9 @@ ROOT_URLCONF = 'pystagram.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates1'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -120,3 +127,83 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
+LOGIN_URL = '/login/'
+
+LOGIN_REDIRECT_URL = '/photos/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'staticfiles2'), # 문자열은 동작x
+    os.path.join(BASE_DIR, 'staticfiles'),
+]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_deploy')
+
+MEDIA_URL = '/uploads/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'uploadfiles')
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'filters': {
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+        },
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'access.log',
+            'formatter': 'verbose',
+        },
+        'sentry': {
+            'level': 'INFO',
+            'class': 'raven.contrib.django.handlers.SentryHandler',
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'raven': {
+            'level': 'INFO',
+            'handlers': ['console'],
+        },
+        'django': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+    }
+}
+"""
+RAVEN_CONFIG = {
+    'dsn': 'https://fb6a73196d18441c95a82089f7e956e6:dc0373a697ca448c84eb4634701bf272@sentry.io/102939',
+    # If you are using git, you can also automatically configure the
+    # release based on the git info.
+    'release': raven.fetch_git_sha(os.path.dirname(__file__)),
+}
+"""

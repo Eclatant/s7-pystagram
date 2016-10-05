@@ -4,11 +4,10 @@
   </head>
 
 <body>
-  <form method="POST" action="">
+  <form method="POST" action="" enctype="multipart/form-data">
     {% csrf_token %}
-    <p>
-      <textarea name="content"></textarea>
-    </p>
+
+    {{ form.as_p }}
 
     <p>
       <button type="submit">저 장</button>

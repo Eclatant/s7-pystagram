@@ -1,0 +1,14 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <script src="{% static 'like_impossible.js' %}"></script>
+    <script>
+      say_like_impossible('');
+    </script>
+  </head>
+  <body>
+    <p><a href="{% url 'photos:view_post' pk=post.pk %}">돌아가기</a></p>
+  </body>
+</html>

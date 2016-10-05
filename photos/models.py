@@ -1,8 +1,13 @@
 from django.db import models
+from django.conf import settings
 
 class Post(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     content = models.TextField(max_length=500)
     tags = models.ManyToManyField('Tag', blank=True)#blank 폼에서의 필수항목, null은 DB 널처리관련
+    image = models.ImageField(
+        upload_to='%Y/%m/%d/', null=True, blank=False,
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -15,12 +20,19 @@ class Post(models.Model):
         ordering = ('-created_at', '-pk',)
 
 class Comment(models.Model):
-    post = models.ForeignKey(Post)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    post = models.ForeignKey('Post')
     content = models.TextField(max_length=500)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 class Tag(models.Model):
     name = models.CharField(max_length=40)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+class Like(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    post = models.ForeignKey('Post')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
