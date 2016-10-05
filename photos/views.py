@@ -116,10 +116,7 @@ def add_like(request, pk): # 추가 업데이트해야될내용: 글쓴이는 �
     post = get_object_or_404(Post, pk=pk)
     like_user = post.like_set.filter(user=request.user)
     ctx = { 'post': post }
-    #if request.method == 'POST':
-    #    like = Like()
-    #    like.post = post
-    #    like.save()
+    
     if like_user.exists():
         print('이미 좋아요를 누르셨습니다!')
         return render(request, 'like_impossible.html', ctx)

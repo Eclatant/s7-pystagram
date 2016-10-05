@@ -38,3 +38,5 @@ class LikeTest(TestCase):
         response = self.client.post(add_like_url, follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertRedirects(response, '/login/?next=/photos/posts/28/add_like/')
+    # 테스트 코드만드는데 수업시간에 했던거 하나도 기억이안나효 븅진인가봐요 ㅠㅠ
+    # 아재라서 코딩 피지컬이 딸리는거같아요 오버워치도 심해에서 못벗어나고있어요 대학생애들이 힐러만하래요 서럽... 
