@@ -11,6 +11,7 @@ from django.core.paginator import PageNotAnInteger
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView
+from django.conf import settings
 
 from .models import Post, Comment, Like
 from .forms import PostSimpleForm
@@ -61,7 +62,6 @@ def list_posts(request):
 """
 
 def view_post(request, pk):
-    #post = Post.objects.get(pk=pk)
     post = get_object_or_404(Post, pk=pk)
     likes = post.like_set.all
     ctx = {
@@ -115,10 +115,21 @@ def create_comment(request, pk):
 def add_like(request, pk): # 추가 업데이트해야될내용: 글쓴이는 좋아요를 할 수없어야한다
     post = get_object_or_404(Post, pk=pk)
     like_user = post.like_set.filter(user=request.user)
-    ctx = { 'post': post }
-    
-    if like_user.exists():
-        print('이미 좋아요를 누르셨습니다!')
+    result_txt = ''
+    ctx = {
+        'post': post,
+        'result_txt': result_txt
+        }
+
+    if request.user == post.user:
+        #print('자신의 게시물은 좋아요를 누를 수 없습니다!')
+        result_txt = '자신의 게시물은 좋아요를 누를 수 없습니다!'
+        ctx['result_txt'] = result_txt
+        return render(request, 'like_impossible.html', ctx)
+    elif like_user.exists():
+        #print('이미 좋아요를 누르셨습니다!')
+        result_txt = '이미 좋아요를 누르셨습니다!'
+        ctx['result_txt'] = result_txt
         return render(request, 'like_impossible.html', ctx)
     else:
         like = Like()

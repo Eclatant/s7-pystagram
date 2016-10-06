@@ -5,10 +5,11 @@
     <title></title>
     <script src="{% static 'like_impossible.js' %}"></script>
     <script>
-      say_like_impossible('');
+      say_like_impossible('좋아요 실패!');
     </script>
   </head>
   <body>
+    <p>실패이유: {{ result_txt }}</p>
     <p><a href="{% url 'photos:view_post' pk=post.pk %}">돌아가기</a></p>
   </body>
 </html>

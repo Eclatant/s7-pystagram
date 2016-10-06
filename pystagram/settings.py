@@ -133,7 +133,6 @@ LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/photos/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'staticfiles2'), # 문자열은 동작x
     os.path.join(BASE_DIR, 'staticfiles'),
 ]
 
