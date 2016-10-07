@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+        <form method="POST" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+{#            {% for field in form %}#}
+{#            <div class="form-field">#}
+{#                {{ field }}#}
+{#            </div>#}
+{#            {% endfor %}#}
+{#            <p>#}
+                <button type="submit">저장</button>
+            </p>
+        </form>
+    </body>
+</html>
