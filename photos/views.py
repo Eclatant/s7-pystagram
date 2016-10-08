@@ -29,7 +29,6 @@ def hello_world(request):
 
 
 def list_posts(request):
-    raise HelloWorldError('-_-')
     logger.debug('로그로그하군!')
     logger.info('로깅로깅하구나!')
     logger.warning('워닝워닝하네!')
@@ -107,4 +106,24 @@ class CreatePost(CreateView):
         return super().form_valid(form)
 
 #create_post = login_required(CreatePost.as_view())
+
+
+@login_required
+def like(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    qs = post.like_set.filter(user=request.user)
+    did_like = qs.exists()
+
+    if did_like:
+        qs.delete()
+        res_text = '좋아요 취소'
+    else:
+        qs.create(user=request.user)
+        res_text = '좋아요'
+
+    return HttpResponse(res_text)
+
+
+
+
 
