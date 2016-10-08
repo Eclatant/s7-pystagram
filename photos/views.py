@@ -118,7 +118,7 @@ def like(request, pk):
         qs.delete()
         res_text = '좋아요 취소'
     else:
-        qs.create(user=request.user)
+        qs.create(post=post, user=request.user)
         res_text = '좋아요'
 
     return HttpResponse(res_text)
