@@ -1,5 +1,7 @@
 from django.db import models
 from django.conf import settings
+from django.dispatch import receiver
+from django.db.models.signals import post_delete
 
 
 class Post(models.Model):
@@ -20,6 +22,13 @@ class Post(models.Model):
 
     class Meta:
         ordering = ('-created_at', '-pk', )
+
+
+@receiver(post_delete, sender=Post)
+def delete_attached_image(sender, instance, **kwargs):
+    instance.image.delete(save=False)
+
+#post_delete.connect(delete_attached_image, sender=Post)
 
 
 class Comment(models.Model):
