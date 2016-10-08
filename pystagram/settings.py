@@ -23,7 +23,7 @@ INSTALLED_APPS = [
     'photos',
     'bootstrap3',
     'profiles',
-    'raven.contrib.django.raven_compat',
+    #'raven.contrib.django.raven_compat',
 ]
 
 MIDDLEWARE = [

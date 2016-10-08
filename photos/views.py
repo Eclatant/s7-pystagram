@@ -15,6 +15,7 @@ from django.urls import reverse_lazy
 
 
 from .models import Post
+from .models import Like
 from .forms import PostSimpleForm
 from .forms import PostForm
 from pystagram.sample_exceptions import HelloWorldError

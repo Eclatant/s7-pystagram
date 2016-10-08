@@ -36,3 +36,9 @@ class Tag(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
+class Like(models.Model):
+    post = models.ForeignKey(Post)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
