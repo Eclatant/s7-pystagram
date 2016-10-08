@@ -3,9 +3,11 @@
     {{ post.pk }} 번 사진 게시물
 </p>
 
+{% addnim %}
 <p>
     {{ request.user }}이 올린 사진
 </p>
+{% endaddnim %}
 
 <p>
 <img src="{{ post.image.url }}" />
@@ -21,3 +23,4 @@
 
 </a>
 </p>
+
