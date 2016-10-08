@@ -13,7 +13,7 @@ def did_like(post, user):
 
 @register.tag(name='addnim')
 def add_nim(parser, token):
-    nodelist = parser.parse(['endaddnim', ])
+    nodelist = parser.parse(['end_add_nim', 'endaddnim', ])
     parser.delete_first_token()
     return NimNode(nodelist)
 
