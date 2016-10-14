@@ -1,0 +1,32 @@
+{% load bootstrap3 %}
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+{#        <script src="{% static 'hello.js' %}"></script>#}
+{#        <script>#}
+{#            say_hello('안녕하세요.');#}
+{#        </script>#}
+        {% bootstrap_css %}
+        {% bootstrap_javascript %}
+    </head>
+
+    <body>
+        <h3>사진 목록</h3>
+        <p>
+        <a href="{% url 'photos:create_photo' %}">게시물 만들기</a>
+        </p>
+        {% for photo in photos %}
+        <div class="post_container">
+            <p>
+            <a href="{% url 'photos:view_photo' photo.pk %}">{{ photo.pk }}</a>
+            </p>
+            <p>{{ photo.content }}</p>
+        </div>
+        {% endfor %}
+
+         {% bootstrap_pagination photos %}
+    </body>
+</html>
+

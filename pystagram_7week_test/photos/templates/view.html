@@ -1,0 +1,61 @@
+{% load my_tags %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+    </head>
+
+    <body>
+        <div class="post_container">
+            <p>[{{ photo.pk }}번 게시물]
+                <a href="{% url 'photos:like' photo.pk %}">
+                {% if photo|did_like:request.user %}
+                    좋아요 취소
+                {% else %}
+                    좋아요
+                {% endif %}
+                </a>
+            </p>
+            <div class="post_content">{{ photo.content }}</div>
+            <div>
+                <p>게시물 작성일시 : {{ photo.created_at }}</p> 
+            </div>
+
+            {% addnim %}
+                <p> 당신은
+                    <a href="{% url 'photos:user_profile' user.pk %}">{{ request.user }}
+                    </a>
+                </p>
+                <p>
+                    <a href="{% url 'photos:user_profile' photo.user.pk %}">{{ photo.user }}
+                    </a>
+                    이 올린 사진
+                </p>
+                {% if photo.image %}
+                    <img src = "{{ photo.image.url }}">
+                {% endif %}
+            {% endaddnim %}
+   
+            <p>----------------------------------------</p>
+        </div>
+        <div class="comments_container">
+            <br>
+            <p>[댓글]
+            <a href="{% url 'photos:create_comment' photo.pk %}">댓글달기</a>
+            </p>
+
+            {% for comment in photo.comment_set.all %}
+            <div class="comment_container">
+                <p>댓글순번 : {{ forloop.counter }}</p>
+                <div class="comment_content">내용 : {{ comment.content }}</div>
+                <p>댓글 작성일시 : {{ comment.created_at }}</p>
+                <a href="{% url 'photos:delete_comment' comment.id %}">삭제하기</a>
+                <p>----------------------------------------</p>
+            </div>
+            {% empty %}
+            <p>댓글이 없습니다.</p>
+            {% endfor %}
+        </div>
+    </body>
+</html>
+

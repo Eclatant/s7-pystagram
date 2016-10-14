@@ -1,0 +1,66 @@
+{% load my_tags %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                var follow_btn = $('#follow_btn');
+                follow_btn.click(function () {
+                    $.ajax({
+                        url: '{% url "photos:follow" %}',
+                        type: 'POST',
+                        data: {
+                            csrfmiddlewaretoken:'{{ csrf_token }}',
+                            user:{{ user_profile.pk }}
+                        },
+                        success: function (data) {
+                            if (follow_btn.text().match("취소")){
+                                follow_btn.text(data);
+                                follower_num = parseInt($('#follower_num').text()) - 1;
+                                $('#follower_num').text(follower_num);
+                            } else {
+                                follower_num = parseInt($('#follower_num').text()) + 1;
+                                $('#follower_num').text(follower_num);
+                                follow_btn.text(data);
+                            }
+                        },
+                        failure: function (data) {
+
+                        }
+                    });
+                });
+            });
+        </script>
+    </head>
+    <body>
+        {% csrf_token %}
+        {% addnim %}
+            <p>
+            [{{ user_profile.user }}의 프로필]
+            </p>
+            <p>
+                아이디 : {{ user_profile.user }}
+                <br>
+                성별 : {{ user_profile.gender }}
+            </p>
+            <p>
+                팔로워 :
+                <span id="follower_num">
+                    {{ follower_num }}
+                </span>
+                /
+                팔로잉: {{ following_num }}
+            </p>
+        {% endaddnim %}
+        {% if user_profile.user != login_user %}
+            <button id="follow_btn">
+                {% if user_profile.pk|did_follow:login_user.profile.pk %}
+                        팔로우 취소
+                {% else %}
+                        팔로우
+                {% endif %}
+            </button>
+        {% endif %}
+    </body>
+</html>
