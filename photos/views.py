@@ -43,24 +43,6 @@ def list_posts(request):
     }
     return render(request, 'list.html', ctx)
 
-"""def list_posts(request):
-    per_page = 2
-    try:
-        page = request.GET.get('page', '')
-        if page.isdigit():
-            page = int(page)
-        if page < 1:
-            page = 1
-    except(TypeError, ValueError):
-        page = 1
-
-    posts = Post.objects.all().order_by('-created_at')
-    ctx = {
-        'posts' : posts[(page-1)*per_page:page*per_page],
-    }
-    return render(request, 'list.html', ctx)
-"""
-
 def view_post(request, pk):
     post = get_object_or_404(Post, pk=pk)
     likes = post.like_set.all
@@ -77,6 +59,7 @@ def create_post(request):
         if form.is_valid():
             post = form.save(commit=False) # 위의 세줄을 한줄로
             post.user = request.user
+            post.user_name = str(post.user)
             post.save()
             return redirect('photos:view_post', pk=post.pk)
     elif request.method == 'GET':
@@ -112,50 +95,41 @@ def create_comment(request, pk):
     return render(request, 'create_comment.html')
 
 @login_required
-def add_like(request, pk): # 추가 업데이트해야될내용: 글쓴이는 좋아요를 할 수없어야한다
+def add_like(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    like_user = post.like_set.filter(user=request.user)
+    qs = post.like_set.filter(user=request.user)
+    did_like = qs.exists()
     result_txt = ''
+
     ctx = {
         'post': post,
-        'result_txt': result_txt
+        'did_like': did_like
         }
 
-    if request.user == post.user:
-        #print('자신의 게시물은 좋아요를 누를 수 없습니다!')
-        result_txt = '자신의 게시물은 좋아요를 누를 수 없습니다!'
-        ctx['result_txt'] = result_txt
-        return render(request, 'like_impossible.html', ctx)
-    elif like_user.exists():
-        #print('이미 좋아요를 누르셨습니다!')
-        result_txt = '이미 좋아요를 누르셨습니다!'
-        ctx['result_txt'] = result_txt
-        return render(request, 'like_impossible.html', ctx)
+    if did_like:
+        qs.delete()
     else:
-        like = Like()
-        like.user = request.user
-        like.post = post
-        like.save()
-        return redirect('photos:view_post', pk=post.pk)
+        qs.create(post=post, user=request.user)
 
-"""
-class ListPost(ListView):
-    model = Post
-    template_name = 'list.html'
-    context_object_name = 'posts'
-    paginate_by = 2
+    return render(request, 'like_result.html', ctx)
 
-list_posts = ListPost.as_view()
+def user_info(request, target_user):
+    page = request.GET.get('page', 1)
+    per_page = 2
 
-class CreatePost(CreateView):
-    model = Post
-    form_class = PostForm
-    template_name = 'edit.html'
+    user_posts = Post.objects.filter(user_name=target_user).order_by('-created_at')
+    pgt = Paginator(user_posts, per_page)
+    try:
+        contents = pgt.page(page)
+    except PageNotAnInteger:
+        contents = pgt.page(1)
+    except EmptyPage:
+        contents = []
 
-    def form_valid(self, form):
-        form.instance = self.request.user
-        return super()
-    #success_url = reverse_lazy('photos:view_post')
+    ctx = {
+        'posts' : contents,
+        'user' : target_user
+    }
+    return render(request, 'user_post_list.html', ctx)
 
-create_post = login_required(CreatePost.as_view())
-"""
+    #return HttpResponse('{uname} 님'.format(uname=user_name))

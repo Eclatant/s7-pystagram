@@ -1,6 +1,29 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
   <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="{% static 'jquery.vintage.min.js' %}"></script>
+    <script src="{% static 'vintage.presets.js' %}"></script>
+    <script>
+$(document).ready(function(){
+
+  $('input[type="file"]').on('change', function(e) {
+
+    var reader = new FileReader();
+    reader.onerror = function(e){ console.log(e); }
+    reader.onloadend = function(e){
+      if( (/^data\:image\/(png);base64/i).test(e.target.result) ){
+        $('#preview > img').attr('src', e.target.result);
+      }
+      else {
+        alert('png가 아니거나 로드 실패!')
+      }
+      }
+    reader.readAsDataURL(this.files[0]);
+  });
+});
+    </script>
   </head>
 
 <body>
@@ -8,6 +31,8 @@
     {% csrf_token %}
 
     {{ form.as_p }}
+
+    <div id="preview"><img src=""></div>
 
     <p>
       <button type="submit">저 장</button>

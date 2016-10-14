@@ -1,0 +1,16 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <script src="{% static 'like.js' %}"></script>
+  </head>
+  <body>
+    {% if did_like %}
+      <script>say_like('좋아요 취소')</script>
+    {% else %}
+      <script>say_like('좋아요')</script>
+    {% endif %}
+    <meta http-equiv="REFRESH" content="0;url={{ request.path|cut:"add_like/" }}">
+  </body>
+</html>

@@ -9,11 +9,7 @@
   </head>
 
   <body>
-    <h3> 사 진 목 록</h3>
-
-    <div class="logined_user_container">
-      <p>{{ user }}</p>
-    </div>
+    <h3> {{ user }} 님이 올린 게시물</h3>
 
     {% for post in posts %}
     <div class="post_container">

@@ -1,3 +1,4 @@
+{% load my_tags %}
 <!DOCTYPE html>
 <html>
   <head>
@@ -12,9 +13,14 @@
       </div>
     </div>
 
+
     <p>
       {{ post.pk }} 번 사진 게시물
     </p>
+
+    {% addnim %}
+    <p>당 신 은 <a href="{% url 'photos:user_info' request.user %}">{{ request.user }}</a></p>
+    {% endaddnim %}
 
     <p>
       <img src="{{ post.image.url }}" />
@@ -31,7 +37,7 @@
 
     <p>-------------- 좋아요를 눌러주신분들-----------------</p>
     {% for like in likes %}
-    <p>{{ like.user }} : {{ like.created_at }} </p>
+    <p><a href="{% url 'photos:user_info' like.user %}">{{ like.user }}</a>: {{ like.created_at }}</p>
     {% endfor %}
     <p>---------------------------------------------------------------</p>
 
