@@ -15,9 +15,9 @@ class Profile(models.Model):
     def __str__(self):
         return '글 번호 : {}'.format(self.pk)
 
-class Follow(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL)
-    follower = models.ForeignKey(Profile)
+class FollowList(models.Model):
+    user = models.ManyToManyField(settings.AUTH_USER_MODEL)
+    follow = models.ManyToManyField(Profile)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

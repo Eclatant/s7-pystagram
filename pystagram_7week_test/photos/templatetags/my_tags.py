@@ -1,8 +1,8 @@
 from django import template
 from django.template.base import VariableNode
 from django.contrib.auth import get_user_model
-from profiles.models import Profile
 from django.shortcuts import get_object_or_404
+from profiles.models import Profile, FollowList
 
 register = template.Library()
 
@@ -11,9 +11,8 @@ def did_like(photo, user):
     return photo.like_set.filter(user=user).exists()
 
 @register.filter
-def did_follow(following, follower):
-    profile = get_object_or_404(Profile, pk=follower)
-    return profile.follow_set.filter(user=following).exists()
+def did_follow(following_user, follower):
+    return FollowList.objects.filter(user=follower,follow=following_user).exists()
 
 @register.tag(name='addnim')
 def add_nim(parser, token):

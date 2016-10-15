@@ -3,7 +3,7 @@ from photos.models import Photo
 from photos.models import Comment
 from photos.models import Tag
 from photos.models import Like
-from profiles.models import Profile, Follow
+from profiles.models import Profile, FollowList
 
 class CommentInlineAdmin(admin.StackedInline):
     model = Comment
@@ -27,4 +27,4 @@ admin.site.register(Comment)
 admin.site.register(Tag)
 admin.site.register(Like)
 admin.site.register(Profile)
-admin.site.register(Follow)
+admin.site.register(FollowList)

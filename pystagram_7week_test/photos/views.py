@@ -20,7 +20,7 @@ from django.contrib.auth import get_user_model
 # 설치한 라이브러리 import
 
 from .models import Photo, Comment, Like
-from profiles.models import Profile, Follow
+from profiles.models import Profile, FollowList
 from .forms import PostSimpleForm
 from .forms import PhotoForm, CommentForm, PhotoDeleteForm, CommentDeleteForm
 from pystagram.sample_exceptions import HelloWorldError
@@ -282,10 +282,10 @@ class UserProfile(ListView):
     def get_context_data(self, **kwargs):
         context = super(UserProfile, self).get_context_data(**kwargs)
         user = self.kwargs['pk']
-
         user_profile = get_object_or_404(Profile, user=user)
-        following_num = user_profile.follow_set.count()
-        follower_num = Follow.objects.filter(user=user).count()
+
+        following_num = FollowList.objects.filter(user=user).count()
+        follower_num = FollowList.objects.filter(follow=user_profile).count()
 
         context = {
             'user_profile':user_profile,
@@ -303,21 +303,44 @@ class Follows(View):
 
     def post(self, request, *args, **kwargs):
 
-        follower = self.request.user.profile.pk
-        following = self.request._post['user']
+        follower = self.request.user
+        following_user_pk = self.request._post['user']
 
-        if request.user.pk != following:
-            profile = get_object_or_404(Profile, pk=follower)
-            qs = profile.follow_set.filter(user=following)
-            did_follow = qs.exists()
-
-            if did_follow :
+        if follower.pk != following_user_pk:
+            # was_follower = get_object_or_404(Follow, user=follower)
+            profile = get_object_or_404(Profile, user=following_user_pk)
+            qs = FollowList.objects.filter(user=follower, follow=profile)
+            if qs.exists():
                 qs.delete()
                 res_text = '팔로우'
             else :
-                following_user = get_object_or_404(user_model_class, pk=following)
-                qs.create(follower=profile, user=following_user)
+                follow = FollowList()
+                follow.save()
+                follow.user.add(follower)
+                follow.follow.add(profile)
                 res_text = '팔로우 취소'
+
+
+
+
+
+
+
+            # did_follow = qs.exists()
+            # if did_follow:
+            #     qs = Follow.objects.filter(user=following_user, follower=follower.profile)
+            #     did_follow = qs.exists()
+            #
+            #     if did_follow :
+            #         qs.delete()
+            #         res_text = '팔로우'
+            #     else :
+            #         # follow[0].follower.add(follower)
+            #         res_text = '팔로우 취소'
+            # else :
+            #     # follow = Follow
+            #     qs.create(user=following_user).follow.add(follower.profile)
+            #     res_text = '팔로우 취소'
 
             return HttpResponse(res_text)
 

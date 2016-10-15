@@ -12,18 +12,18 @@
                         type: 'POST',
                         data: {
                             csrfmiddlewaretoken:'{{ csrf_token }}',
-                            user:{{ user_profile.pk }}
+                            user:{{ user_profile.user.pk }}
                         },
                         success: function (data) {
-                            if (follow_btn.text().match("취소")){
-                                follow_btn.text(data);
-                                follower_num = parseInt($('#follower_num').text()) - 1;
-                                $('#follower_num').text(follower_num);
-                            } else {
+                            if (data.match("취소")){
                                 follower_num = parseInt($('#follower_num').text()) + 1;
                                 $('#follower_num').text(follower_num);
                                 follow_btn.text(data);
-                            }
+                           } else {
+                                follower_num = parseInt($('#follower_num').text()) - 1;
+                                $('#follower_num').text(follower_num);
+                                follow_btn.text(data);
+                           }
                         },
                         failure: function (data) {
 
@@ -55,7 +55,7 @@
         {% endaddnim %}
         {% if user_profile.user != login_user %}
             <button id="follow_btn">
-                {% if user_profile.pk|did_follow:login_user.profile.pk %}
+                {% if user_profile|did_follow:login_user %}
                         팔로우 취소
                 {% else %}
                         팔로우
